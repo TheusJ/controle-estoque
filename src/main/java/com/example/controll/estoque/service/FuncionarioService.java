@@ -1,10 +1,10 @@
-package service;
+package com.example.controll.estoque.service;
 
-import exception.FuncionarioException;
-import model.FuncionarioModel;
+import com.example.controll.estoque.exception.FuncionarioException;
+import com.example.controll.estoque.model.FuncionarioModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.FuncionarioRepository;
+import com.example.controll.estoque.repository.FuncionarioRepository;
 
 @Service
 public class FuncionarioService {

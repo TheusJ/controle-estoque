@@ -1,6 +1,6 @@
-package repository;
+package com.example.controll.estoque.repository;
 
-import model.FuncionarioModel;
+import com.example.controll.estoque.model.FuncionarioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

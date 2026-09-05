@@ -1,4 +1,4 @@
-package model;
+package com.example.controll.estoque.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
