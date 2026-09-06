@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, UUID> {
+public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Long> {
+
+    boolean existsFuncionarioModelByCpf(String cpf);
 }
