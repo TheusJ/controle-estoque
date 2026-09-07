@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {
 
+    boolean existsBySku(String sku);
 }

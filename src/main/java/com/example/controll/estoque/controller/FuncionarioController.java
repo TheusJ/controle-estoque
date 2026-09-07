@@ -1,5 +1,6 @@
 package com.example.controll.estoque.controller;
 
+import com.example.controll.estoque.enums.TipoCargo;
 import com.example.controll.estoque.exception.FuncionarioException;
 import com.example.controll.estoque.repository.FuncionarioRepository;
 import jakarta.validation.Valid;
@@ -20,9 +21,6 @@ public class FuncionarioController {
     @Autowired
     FuncionarioService funcionarioService;
 
-    @Autowired
-    FuncionarioRepository funcionarioRepository;
-
     @PostMapping("/cadastrar")
     public ResponseEntity<FuncionarioModel> cadastrarFuncionario(@RequestBody @Valid FuncionarioModel funcionarioModel) {
         FuncionarioModel salvo = funcionarioService.cadastrar(funcionarioModel);
@@ -42,31 +40,24 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioModel> findById(@PathVariable Long id) {
 
-        return funcionarioRepository.findById(id).map(funcionarioModelId -> ResponseEntity.ok().body(funcionarioModelId)).orElse(ResponseEntity.notFound().build());
+        return funcionarioService.buscarById(id).map(funcionarioModelId -> ResponseEntity.ok().body(funcionarioModelId)).orElse(ResponseEntity.notFound().build());
+
+
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         funcionarioService.deleteById(id);
 
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FuncionarioModel> atualizar(@PathVariable Long id, @RequestBody FuncionarioModel funcionarioAtualizado) {
+    public ResponseEntity<FuncionarioModel> atualizarFuncionario(@PathVariable Long id, @RequestBody FuncionarioModel funcionarioModel) {
 
-        return funcionarioRepository.findById(id).map(funcionarioModel -> {
-            funcionarioModel.setNome(funcionarioAtualizado.getNome());
-            funcionarioModel.setCargo(funcionarioAtualizado.getCargo());
-            funcionarioModel.setSetor(funcionarioAtualizado.getSetor());
-            funcionarioModel.setCpf(funcionarioAtualizado.getCpf());
-            funcionarioModel.setEmail(funcionarioAtualizado.getEmail());
-            funcionarioModel.setIdade(funcionarioAtualizado.getIdade());
-            funcionarioModel.setSalario(funcionarioAtualizado.getSalario());
+        FuncionarioModel funcionarioAtualizado = funcionarioService.atualizarFuncionario(id, funcionarioModel);
 
-            FuncionarioModel funcionarioModelAtualizado = funcionarioRepository.save(funcionarioModel);
-
-            return ResponseEntity.ok().body(funcionarioModelAtualizado);
-        }).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.status(HttpStatus.OK).body(funcionarioAtualizado);
 
     }
 }

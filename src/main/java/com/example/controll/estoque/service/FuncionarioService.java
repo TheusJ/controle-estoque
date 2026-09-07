@@ -52,19 +52,31 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        if (!funcionarioRepository.existsById(id)){
-            throw new FuncionarioException("Funcionário não existe");
+    public FuncionarioModel deleteById(Long id) {
+        if (!funcionarioRepository.existsById(id)) {
+            throw new FuncionarioException("Funcionário não existe em nosso Banco de Dados");
         }
+        FuncionarioModel funcionarioId = funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException("Funcionario nao encontrado!"));
 
         funcionarioRepository.deleteById(id);
+        return funcionarioId;
+
     }
 
-    public Optional<FuncionarioModel> atualizar(Long id){
-        Optional<FuncionarioModel> funcionarioModelId = funcionarioRepository.findById(id);
+    public FuncionarioModel atualizarFuncionario(Long id, FuncionarioModel funcionarioModel) {
+        FuncionarioModel funcionarioAtualizado = funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException("Produto não econtrado"));
 
-        return funcionarioModelId;
+        funcionarioAtualizado.setNome(funcionarioModel.getNome());
+        funcionarioAtualizado.setEmail(funcionarioModel.getEmail());
+        funcionarioAtualizado.setCpf(funcionarioModel.getCpf());
+        funcionarioAtualizado.setIdade(funcionarioModel.getIdade());
+        funcionarioAtualizado.setCargo(funcionarioModel.getCargo());
+        funcionarioAtualizado.setSetor(funcionarioModel.getSetor());
+        funcionarioAtualizado.setSalario(funcionarioModel.getSalario());
+
+
+
+        return funcionarioRepository.save(funcionarioAtualizado);
     }
-
 
 }
